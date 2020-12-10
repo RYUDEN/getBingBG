@@ -61,7 +61,7 @@ app.get('/getBgImage',async function(req,res){
     if(result){
         let toDay = moment().format('YYYY/MM/DD') 
         res.header("Content-Type", "text/html; charset=utf-8");
-        res.send(`<img src='${result}' date='${toDay}'>404 NOT FOUND<img/>`)
+        res.send(`<img src='${result.url}' date='${toDay}'>404 NOT FOUND<img/>`)
     }
     else{
         res.send('no url')
