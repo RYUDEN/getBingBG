@@ -4,6 +4,7 @@ const apicache = require("apicache"); // 接口缓存
 const moment = require("moment");
 const { getPage, getBgImage } = require('./utils/spider')
 const { scheduleCronstyle } = require('./getBg')
+
 // const Background = require('./db').Background
 
 const app = express();
@@ -34,7 +35,7 @@ app.get('/', async function(req,res) {
     res.send("<h1/>hello<h1/>")
 })
 
-app.get('/page',async function(req,res){
+app.get('/page',async function(req,res) {
     res.header("Content-Type", "text/html; charset=utf-8");
     const result = await getPage()
     if(result){
@@ -56,6 +57,15 @@ app.get('/getBg',async function(req,res){
     }
 })
 
+app.get('/getBgList', function(req, res) {
+    try {
+        const files = fs.readdirSync('files')
+        res.send(new TempRes(200, '成功！', files))
+    }catch(e) {
+        res.send('no url')
+    }
+})
+
 app.get('/getBgImage',async function(req,res){
     const result = await getBgImage()
     if(result){
@@ -68,6 +78,8 @@ app.get('/getBgImage',async function(req,res){
     }
 })
 scheduleCronstyle()
+
+app.use(express.static('./files'));
 
 app.get('*', async function(req,res) {
     res.header("Content-Type", "text/html; charset=utf-8");
